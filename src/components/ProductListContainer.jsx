@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin-left: 20vw;
+  margin:0vw 12vw;
   padding-top: 14vh;
 `;
 

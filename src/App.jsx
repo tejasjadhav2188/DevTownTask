@@ -1,4 +1,4 @@
-import { Header } from "./components/Header"
+
 import { ThemeProvider } from "styled-components"
 import GlobalStyle from "./components/styled_components/Global"
 import ProductList from "./components/ProductListContainer"
@@ -16,7 +16,6 @@ function App() {
 
     <>
     <GlobalStyle />
-    <Header />
     <ProductList />
     </>
     </ThemeProvider>
