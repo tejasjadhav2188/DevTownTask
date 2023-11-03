@@ -11,6 +11,15 @@ export const StyledSidebar  = styled.div`
     z-index: 10;
     margin-top: 10vh;
 
+    p{
+        font-size: 25px;
+        padding: 20px;
+    }
+    label{
+        padding:20px;
+        
+    }
+
 
 
 

@@ -7,7 +7,7 @@ const ProdContainer = styled.div`
  display: flex;
  flex-direction: column;
  align-items: center;
- width: 300px;
+ width: 200px;
  margin: 20px;
  padding: 20px;
  border: 1px solid #ccc;
@@ -16,7 +16,7 @@ const ProdContainer = styled.div`
  transition: box-shadow 0.3s ease-in-out;
 
  &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.5);
  }
 `;
 
@@ -36,16 +36,17 @@ const Description = styled.p`
 
 const Price = styled.p`
  font-weight: bold;
+ 
 `;
 
-export const ProductContainer = (props) => {
+export const ProductContainer = ({data}) => {
  return (
     <ProdContainer>
     
-      <Image src={props.data.images[0]} alt={props.data.title} />
-      <Title>{props.data.title}</Title>
-      <Description>{props.data.description}</Description>
-      <Price>${props.data.price.toFixed(2)}</Price>
+      <Image src={data.images[0]} alt={data.title} />
+      <Title>{data.title}</Title>
+      <Description>{data.description}</Description>
+      <Price>${data.price.toFixed(2)}</Price>
     </ProdContainer>
  );
 };

@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ProductContainer } from './ProductContainer';
+import { SidebarLayout } from './Sidebar';
+import Pagination from './Pagination';
 
 const Container = styled.div`
   display: flex;
@@ -14,18 +16,18 @@ const Container = styled.div`
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(12); 
   
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [filterCategory, setFilterCategory] = useState(''); // Filter by category
-  const [sortOrder, setSortOrder] = useState('asc'); // Sorting order
 
-
+  
   useEffect(() => {
-    fetch('https://dummyjson.com/products')
+    fetch('https://dummyjson.com/products?limit=0')
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.products);
         setProducts(data.products);
+        setFilteredProducts(data.products)
         setLoading(false);
       })
       .catch((error) => {
@@ -34,36 +36,65 @@ const ProductList = () => {
       });
   }, []);
 
+  
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+
+
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const totalPages = Math.ceil(products.length / itemsPerPage);
+
+  // Handle changing the current page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
  
 
   const handleFilter = (category) => {
     if (category === 'all') {
       setFilteredProducts(products);
+      
+    console.log(filterCategory)
     } else {
       const filtered = products.filter((product) => product.category === category);
       setFilteredProducts(filtered);
+      
     }
   };
 
-  const handleSort = () => {
+  const handleSort = (sortOrder) => {
+
     const sortedProducts = [...filteredProducts].sort((a, b) => {
-      if (sortOrder === 'asc') {
+      if (sortOrder === "asc") {
         return a.price - b.price;
       } else {
         return b.price - a.price;
       }
+
     });
     setFilteredProducts(sortedProducts);
 };
 
   return (
+    <>
+    
+    <SidebarLayout data={products} handleSort={handleSort} handleFilter={handleFilter} />
 
     <Container>
-      {products.map((product, index) => (
+      {currentProducts.map((product, index) => (
         <ProductContainer data={product} key={index}/>
-          
-      ))}
+        
+        ))}
     </Container>
+    <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
+        </>
   );
 };
 
